@@ -1,31 +1,54 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Gallery from Folder Demo</title>
-<style type="text/css">
-<--
-li{
-	list-style-type:none;
-	margin-right:10px;
-	margin-bottom:10px;
-	float:left;
-}
--->
-</style></head>
-<body>
-<ul>
+<!doctype html>
+
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>Title</title>
+		<meta name="language" content="en" />  
+
+		<meta name="description" content="" />  
+
+		<meta name="keywords" content="" />
+		<style type="text/css">
+			ul li {list-style: none; margin-bottom: 15px;}
+			ul li img {display: block;}
+			ul li span {display: block;}
+		</style>
+	</head>
+	<body>
+
 	<?php
-		$dirname = "images/";
-		$images = scandir($dirname);
-		shuffle($images);
-		$ignore = array(".", "..");
-		foreach($images as $curimg){
-			if(!in_array($curimg, $ignore)) {
-				echo "<li><a href=\"$dirname$curimg\"><img src=$dirname$curimg&w=300&zc=1' alt='' /></a></li>\n ";
-			}
-		} 				
+
+	// open this directory 
+	$myDirectory = opendir("images");
+
+	// get each entry
+	while($entryName = readdir($myDirectory)) {
+		$dirArray[] = $entryName;
+	}
+
+	// close directory
+	closedir($myDirectory);
+
+	//	count elements in array
+	$indexCount	= count($dirArray);
+
 	?>
-</ul>
+
+	<ul>
+
+		<?php
+		// loop through the array of files and print them all in a list
+		for($index=0; $index < $indexCount; $index++) {
+			$extension = substr($dirArray[$index], -3);
+			if ($extension == 'jpg'){ // list only jpgs
+				echo '<li><img src="images/' . $dirArray[$index] . '" alt="Image" /><span>' . $dirArray[$index] . '</span>';
+			}	
+		}
+		?>
+
+	</ul>	
+
+
 </body>
-</body>
+</html>
